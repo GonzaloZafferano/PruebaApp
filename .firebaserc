@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "p-p-s-2d400": {
+      "hosting": {
+        "app": [
+          "p-p-s-2d400"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "p-p-s-2d400"
+  }
+}

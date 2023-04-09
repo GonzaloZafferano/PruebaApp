@@ -1,0 +1,40 @@
+<div class="container bg-light"> 
+  <form id="frm" (ngSubmit)="login()">
+    <ion-list>  
+      <div class="form-floating mb-3 d-flex flex-column align-items-start font-weight-bold">       
+        <label class="text-start text-dark" for="floatingInputValue">Ingrese su direccion de correo:</label>
+        <!--REQUIERE LA PROPIEDAD 'name' para que funcione el NGMODEL-->
+        <input type="email" class="form-control" id="floatingInputValue" placeholder="name@example.com" name="email" [(ngModel)]="email">
+      </div>
+      <div class="form-floating mb-3 d-flex flex-column align-items-start">
+        <label for="floatingInputPassword" class="text-left text-dark font-weight-bold">Ingrese su contraseña:</label>
+        <input type="password" class="form-control" id="floatingInputPassword" placeholder="Password" name="password" [(ngModel)]="password">
+      </div>
+      <ion-toolbar>
+        <ion-buttons slot="secondary">
+          <ion-button color="success" fill="solid" type="submit" id="btn-send"> <!-- (click)="login()"> -->
+            <ion-title class="font-weight-bold">Login</ion-title>
+            <ion-icon slot="start" name="person-circle"></ion-icon>
+          </ion-button>    
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-list>  
+  </form>
+</div>
+
+<!--  
+  <div *ngIf="esUsuarioValido">
+    <app-pop-up-window></app-pop-up-window>
+  </div>
+-->
+  
+
+<!--No necesita 'class="custom-alert" ' para funcionar-->
+<ion-alert  
+trigger="btn-send"
+[class]="class"
+  [header]="message"
+  [buttons]="alertButtons"
+
+>
+</ion-alert>
