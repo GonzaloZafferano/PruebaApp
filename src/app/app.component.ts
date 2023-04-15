@@ -5,6 +5,8 @@ import { LoginService } from './login.service';
 import { UsuarioService } from './usuario.service';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { SplashScreen } from '@capacitor/splash-screen';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -23,5 +25,13 @@ import { HttpClientModule } from '@angular/common/http';
   ],
 })
 export class AppComponent {
-  constructor() {}
+  constructor() {
+    this.initializeApp();
+  }
+
+  async initializeApp() {
+    //await SplashScreen.show();
+    // Aquí puedes agregar cualquier otra inicialización que necesites para tu aplicación
+    //await SplashScreen.hide();
+  }
 }

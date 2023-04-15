@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { UsuarioService } from 'src/app/usuario.service';
 import { PopUpWindowComponent } from '../pop-up-window/pop-up-window.component';
 import { NgModule } from '@angular/core';
+import { Output, EventEmitter } from '@angular/core';
+
 
 @Component({
   selector: 'app-login',
@@ -17,16 +19,20 @@ import { NgModule } from '@angular/core';
   //Debido a esto, NO SE COLOCA EL 'LoginComponent' en el array de 'declarations' (array de componentes), 
   //si no que AHORA se lo coloca en el array de 'imports' (donde van los modulos),
   //porque al ser 'standalone', sera su propio MODULO en SI MISMO.
-
+  
   imports: [IonicModule, FormsModule, PopUpWindowComponent, CommonModule]
 })
 export class LoginComponent  implements OnInit {
+  @Output() newItemEvent = new EventEmitter<boolean>();
 
   //SI LO PONGO PRIVADO, EL HTML NO LO PUEDE LEER.
   email:string = "";
   password:string = "";
   usuarios:Usuario[]=[];
   esUsuarioValido:boolean = false;
+  mensaje:string = '';
+  mensajePass:string = '';
+  mensajeEmail:string = '';
   constructor(private loginService:LoginService, private usuarioService:UsuarioService) { }
 
   ngOnInit() {
@@ -44,6 +50,47 @@ export class LoginComponent  implements OnInit {
     //const email = form.value.email;
     //const pass = form.value.password;
     //alert(this.email);
+    let faltanDatos = false;
+    let emailValido = false;
+    if(this.email == ''){
+      faltanDatos = true;
+      this.mensajeEmail = "Falta ingresar el correo electronico";      
+    }else {
+      emailValido = this.validarEmail();
+
+      if(!emailValido)
+      this.mensajeEmail = "Formato de Email invalido";
+      else
+      this.mensajeEmail = '';
+    }
+
+    if(this.password == ''){
+      faltanDatos = true;
+      this.mensajePass = "Falta ingresar la contraseña";        
+    }else
+    if(this.password.length <4){
+      faltanDatos = true;
+      this.mensajePass = "La contraseña debe contener al menos 4 caracteres";
+    }
+    else
+    this.mensajePass = '';
+
+
+    if(!faltanDatos && emailValido){
+      //EVALUO SI ESTA OK
+      let usuarioValido = this.loginService.login(this.email,this.password);
+      if(usuarioValido){
+        //this.mensaje = 'OK';
+        this.addNewItem(true);
+      }else{ 
+        this.mensaje = "Correo o contraseña invalidos!";
+      }
+    }else{
+      this.mensaje = '';
+    }
+
+
+    /*
     let usuarioValido = this.loginService.login(this.email,this.password);
 
     if(usuarioValido){
@@ -69,12 +116,31 @@ export class LoginComponent  implements OnInit {
         }
         ];  
     }
+
+    */
   }
 
+  validadCampoVacio(){
+    if(this.password != ''){
+      this.mensajePass = '';
+    }
+
+    if(this.email != ''){
+      this.mensajeEmail = '';
+    }
+  }
+  validarEmail() {
+    const pattern = /^([a-zA-Z0-9\.]+@+[a-zA-Z]+(\.)+[a-zA-Z]{2,3})$/;      
+    if (this.email.length > 6) {
+      return pattern.test(this.email);
+    }
+    return false;
+  };
+  /*
   class = "";
   message = ""
   public alertButtons = [{}];
-
+*/
   /*
   public alertInputs = [
     {
@@ -98,4 +164,8 @@ export class LoginComponent  implements OnInit {
     },
   ];
   */
+
+  addNewItem(value: boolean) {
+    this.newItemEvent.emit(value);
+  }
 }

@@ -3,5 +3,19 @@
   "integrations": {
     "capacitor": {}
   },
-  "type": "angular"
+  "type": "angular",
+  "cordova": {
+    
+      "name": "myApp",
+      "type": "angular",
+      "integrations": {},
+      "cordova": {
+        "icon": "resources/icon.png",
+        "splash": {
+          "imagePath": "resources/splash.png",
+          "color": "#ffffff"
+        }
+      }
+    
+  }
 }
